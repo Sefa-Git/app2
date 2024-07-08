@@ -1,34 +1,43 @@
-import { useRoute } from "@react-navigation/native";
 import { View,Text,StyleSheet, FlatList } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
-import tinycolor from "tinycolor2";
+import React, { useEffect } from 'react';
 
-function MealsOverViewScreen({route}){
+function MealsOverViewScreen({navigation,route}){// route.params.category, carries CATEGORY  object
     
-    const makeTransparent = (color, alpha) => {  // makes the  input color little transparant
-        const colorObj = tinycolor(color);
-        colorObj.setAlpha(alpha);
-        return colorObj.toRgbString();
-    };
-
-    const catId = route.params.categoryId;
-    const backgroundColor = makeTransparent(route.params.buttonColor,0.4)
+    const currentCategory = route.params.category;
+    
+    const catId = currentCategory.id;
     const displayedMeals = MEALS.filter((mealItem) => {
         return mealItem.categoryIds.indexOf(catId) >= 0;
     }); 
 
-    function renderMealIten(itemData){
-        return <MealItem title={itemData.item.title} imageUrl={itemData.item.imageUrl} theMeal={itemData.item} />;
+    function renderMealItem(itemData){ // renders Items in its return
+
+        function pressHandler(){ //navigates to screen for pressed item 
+            navigation.navigate("meal Screen",{
+                item : itemData.item,
+                });
+        }
+
+        return <MealItem theMeal={itemData.item}  onPress={pressHandler}/>;
     }
 
+    useEffect(() => {     // sets current screens title name
+        navigation.setOptions({
+            title:`${currentCategory.title}`,            
+        })
+            
+        
+    }, []);
+    
     return(
-        <View style={styles.container} backgroundColor={backgroundColor}>
+        <View style={styles.container}>
             
             <FlatList 
             data={displayedMeals} 
             keyExtractor={(item=>item.id)}
-            renderItem={renderMealIten}            
+            renderItem={renderMealItem}            
             ></FlatList>
         </View>
     );

@@ -8,10 +8,10 @@ function CategoresScreen({navigation}){
     function renderCategoryItem(itemData){
         
         function pressHandler(){
+
             navigation.navigate("mealsOverview",{
-                categoryId: itemData.item.id, 
-                buttonColor: itemData.item.color,
-                });
+                category:itemData.item,
+            });
             }
         
         return( 

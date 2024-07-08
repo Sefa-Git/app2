@@ -5,6 +5,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack'
 
 import CategoresScreen  from './screens/CategoriesScreen';
 import MealsOverViewScreen from './screens/MealsOverViewScreen';
+import MealScreen from './screens/MealScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -12,17 +14,30 @@ const Stack = createNativeStackNavigator();
 */
 
 export default function App() {
+
+  
   return (
 <>
-
-  <StatusBar style='dark'/>    
+  <StatusBar style='light'/>    
   
   <NavigationContainer>
         
-        <Stack.Navigator> 
+        <Stack.Navigator initialRouteName={[headerColor='#562f11',backgroundColor='#5a412e']}>  
         
-          <Stack.Screen name="mealsCategories" component={CategoresScreen}/>
-          <Stack.Screen name="mealsOverview" component={MealsOverViewScreen}/>
+          <Stack.Screen name="mealsCategories" component={CategoresScreen} options={{
+            title:'Meals Categories',
+            headerTintColor:'white',
+            headerStyle:{backgroundColor:headerColor},
+            contentStyle:{backgroundColor:backgroundColor}
+            }}/>
+          <Stack.Screen name="mealsOverview" component={MealsOverViewScreen} options={{
+            headerTintColor:'white',
+            headerStyle:{backgroundColor:headerColor},
+            contentStyle:{backgroundColor:backgroundColor}}}/>
+          <Stack.Screen name="meal Screen" component={MealScreen} options={{
+            headerTintColor:'white',
+            headerStyle:{backgroundColor:headerColor},
+            contentStyle:{backgroundColor:backgroundColor}}}/>
         
         </Stack.Navigator>
   </NavigationContainer>
@@ -50,4 +65,3 @@ const styles = StyleSheet.create({
     borderRadius:9,
   },
 });
-

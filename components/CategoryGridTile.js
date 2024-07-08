@@ -7,7 +7,7 @@ function CategoryGridTile({title,color, onPress}){
     return(
         <View style={styles.gridItems }>
             <Pressable
-            android_ripple={{color : '#ccc'}}  
+            android_ripple={{color : '#red'}}  
             style={({pressed}) => [
                 styles.pressStyle, 
                 pressed? styles.whenPressed:null
@@ -22,6 +22,7 @@ function CategoryGridTile({title,color, onPress}){
         </View>
     );
 }
+
 
 export default CategoryGridTile;
 
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
         borderRadius:10,
         alignItems:'center',
         justifyContent:'center',   
-        
     }, 
     pressStyle:{
         flex:1,
@@ -53,5 +53,8 @@ const styles = StyleSheet.create({
         fontSize:15,
         fontWeight:'bold',
     },
+    control:{
+        borderWidth:2,
+    }
 
 })

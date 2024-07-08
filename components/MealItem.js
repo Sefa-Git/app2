@@ -1,22 +1,27 @@
 import {Text, View, Pressable, StyleSheet,ImageBackground } from "react-native";
 
-function MealItem({title,imageUrl, theMeal}){
+function MealItem({theMeal, onPress}){
     
     return (
     <View style={styles.outterContainer} >
         <Pressable
         android_ripple={{color : '#ccc'}}  
         style={({pressed}) => [
-            styles.pressStyle, 
-            pressed? styles.whenPressed:null
-        ]} 
-        onPress ={console.log("pressed")}>
+             
+            pressed? {opacity:0.75}:null
+        ]}
+        onPress={onPress} 
+        >
             <View >
                 <ImageBackground source={{uri:theMeal.imageUrl} }style={styles.imageStyle}>
 
-                    <Text style={styles.textStyle} >{theMeal.title}</Text>
+                    <Text style={styles.titleStyle} >{theMeal.title}</Text>
 
                 </ImageBackground>
+                <View style={styles.infoContainer}>
+                    <Text style={styles.infoTextStyle}> Duration: {theMeal.duration}m     Complexity: {theMeal.complexity}</Text>
+                    <Text style={styles.infoTextStyle}>Price: {theMeal.affordability}</Text>
+                </View>
             </View>
         </Pressable>
     </View>)
@@ -25,11 +30,25 @@ function MealItem({title,imageUrl, theMeal}){
 export default MealItem;
 
 const styles = StyleSheet.create({
+    
+    control1:{
+        borderWidth:1,
+        borderColor:'red',
+    },
+    
+    outterContainer:{
+        margin:5,
+        overflow:'hidden',
+        borderRadius:15,
+        elevation:10,
+    },
+
     imageStyle:{
         width:'100%',
         height:200,
     },
-    textStyle:{
+    
+    titleStyle:{
         fontWeight:'bold',
         textAlign:'left',
         paddingLeft:5,
@@ -38,13 +57,13 @@ const styles = StyleSheet.create({
         
     },
 
-    control1:{
-        borderWidth:1,
-        borderColor:'red',
+    infoContainer:{
+        paddingVertical:10,
+        backgroundColor:'white',          
     },
-    outterContainer:{
-        margin:5,
-        overflow:'hidden',
-        borderRadius:15,
-    }
+    
+    infoTextStyle:{
+        textAlign:'center',
+        fontWeight:'bold',
+    },
 })
