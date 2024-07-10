@@ -2,6 +2,7 @@ import { View,Text,StyleSheet, FlatList } from "react-native";
 import { MEALS } from "../data/dummy-data";
 import MealItem from "../components/MealItem";
 import React, { useEffect } from 'react';
+import MealsList from "../components/MealsList";
 
 function MealsOverViewScreen({navigation,route}){// route.params.category, carries CATEGORY  object
     
@@ -32,14 +33,7 @@ function MealsOverViewScreen({navigation,route}){// route.params.category, carri
     }, []);
     
     return(
-        <View style={styles.container}>
-            
-            <FlatList 
-            data={displayedMeals} 
-            keyExtractor={(item=>item.id)}
-            renderItem={renderMealItem}            
-            ></FlatList>
-        </View>
+    <MealsList navigation={navigation} items={displayedMeals}></MealsList>
     );
 }
 

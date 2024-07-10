@@ -1,14 +1,41 @@
-import { View,StyleSheet,ImageBackground, Text, FlatList, ScrollView } from "react-native"
-import React, { useEffect } from 'react';
+import { View,StyleSheet,ImageBackground, Text, ScrollView, Button,} from "react-native"
+import {useContext, useEffect} from "react"
 
+import FavoriteButton from "../components/FavoriteButton";
+import { FavoritesContext } from "../store/context/favorites-context";
 
 function MealScreen({navigation,route}){ // route hold the MEAL item
+
+    const favoriteMealCts = useContext(FavoritesContext);
 
     const theMeal = route.params.item; // the selcted MEAL item 
     const backgroundColor = route.params.backgroundColor;
     
+    const mealIsFavorite = 
+    favoriteMealCts.ids.includes(theMeal.id);
+
+    function changeFavoriteStatusHandler(){
+        
+        if(mealIsFavorite){        
+            favoriteMealCts.removeFavorite(theMeal.id);
+        } else{
+            favoriteMealCts.addFavorite(theMeal.id);
+        }
+        
+    }
+    useEffect(() => {
+        
+        navigation.setOptions({
+            headerRight:(() => 
+                <FavoriteButton 
+                    isFavorite={mealIsFavorite}
+                    onPress={changeFavoriteStatusHandler}> 
+                </FavoriteButton>)
+        })}, [mealIsFavorite]);
+
     
     return(
+    
         <ScrollView style={styles.mainContainer}>
             <View >
                 <ImageBackground source={{uri:theMeal.imageUrl} }style={styles.imageStyle} />
@@ -24,9 +51,9 @@ function MealScreen({navigation,route}){ // route hold the MEAL item
                                 <Text style={styles.titleStyle}>Ingredients</Text>
                             </View>    
                     
-                            {theMeal.ingredients.map((ingredient) => 
-                            <View  style={styles.itemContainer}>
-                            <Text style={styles.textStyles} key={ingredient}> {ingredient}</Text>
+                            {theMeal.ingredients.map((ingredient,index) => 
+                            <View  style={styles.itemContainer} key={index}>
+                            <Text style={styles.textStyles} key={index}> {ingredient}</Text>
                             </View>                                
                             )}
                     </View>
@@ -36,9 +63,9 @@ function MealScreen({navigation,route}){ // route hold the MEAL item
                                 <Text style={styles.titleStyle}>Steps</Text>
                             </View>
 
-                            {theMeal.steps.map((step) => 
-                                <View style={styles.itemContainer}>
-                                <Text style={styles.textStyles} key={step}> {step}</Text>
+                            {theMeal.steps.map((step,index) => 
+                                <View style={styles.itemContainer} key={index}>
+                                <Text style={styles.textStyles} key={index}> {step}</Text>
                                 </View>                                
                             )}                        
                     </View>
